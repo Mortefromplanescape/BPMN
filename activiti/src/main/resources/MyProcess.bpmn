@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="WINDOWS-1251" standalone="yes"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/processdef" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:yaoqiang="http://bpmn.sourceforge.net" exporter="Yaoqiang BPMN Editor" exporterVersion="5.3" expressionLanguage="http://www.w3.org/1999/XPath" id="_1661543866938" name="" targetNamespace="http://www.activiti.org/processdef" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://bpmn.sourceforge.net/schemas/BPMN20.xsd">
+  <process id="onboarding" isClosed="false" isExecutable="true" name="Onboarding" processType="None">
+    <extensionElements>
+      <yaoqiang:description/>
+      <yaoqiang:pageFormat height="841.8897637795276" imageableHeight="831.8897637795276" imageableWidth="588.1102362204724" imageableX="5.0" imageableY="5.0" orientation="0" width="598.1102362204724"/>
+      <yaoqiang:page background="#FFFFFF" horizontalCount="1" verticalCount="1"/>
+    </extensionElements>
+    <startEvent activiti:initiator="initiator" id="startOnboarding" isInterrupting="true" name="Start" parallelMultiple="false">
+      <outgoing>sid-1337EA98-7364-4198-B5D9-30F5341D6918</outgoing>
+      <outputSet/>
+    </startEvent>
+    <userTask activiti:assignee="${initiator}" activiti:candidateGroups="managers" completionQuantity="1" id="enterOnboardingData" implementation="##unspecified" isForCompensation="false" name="Enter Data" startQuantity="1">
+      <extensionElements>
+        <activiti:formProperty id="fullName" name="Full Name" type="string"/>
+        <activiti:formProperty id="yearsOfExperience" name="Years of Experience" required="true" type="long"/>
+      </extensionElements>
+      <incoming>sid-1337EA98-7364-4198-B5D9-30F5341D6918</incoming>
+      <outgoing>sid-42BE5661-C3D5-4DE6-96F5-73D34822727A</outgoing>
+    </userTask>
+    <sequenceFlow id="sid-1337EA98-7364-4198-B5D9-30F5341D6918" sourceRef="startOnboarding" targetRef="enterOnboardingData"/>
+    <exclusiveGateway default="automatedIntroPath" gatewayDirection="Unspecified" id="decision" name="Years of Experience">
+      <incoming>sid-42BE5661-C3D5-4DE6-96F5-73D34822727A</incoming>
+      <outgoing>automatedIntroPath</outgoing>
+      <outgoing>personalizedIntroPath</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="sid-42BE5661-C3D5-4DE6-96F5-73D34822727A" sourceRef="enterOnboardingData" targetRef="decision"/>
+    <userTask activiti:assignee="${initiator}" activiti:candidateGroups="managers" completionQuantity="1" id="personalizedIntro" implementation="##unspecified" isForCompensation="false" name="Personalized Introduction and Data Entry" startQuantity="1">
+      <extensionElements>
+        <activiti:formProperty datePattern="MM-dd-yyyy hh:mm" id="personalWelcomeTime" name="Personal Welcome Time" type="date"/>
+      </extensionElements>
+      <incoming>personalizedIntroPath</incoming>
+      <outgoing>sid-BA6F061B-47B6-428B-8CE6-739244B14BD6</outgoing>
+    </userTask>
+    <endEvent id="endOnboarding" name="End">
+      <incoming>sid-BA6F061B-47B6-428B-8CE6-739244B14BD6</incoming>
+      <incoming>flow2</incoming>
+      <inputSet/>
+    </endEvent>
+    <scriptTask activiti:autoStoreVariables="false" completionQuantity="1" id="automatedIntro" isForCompensation="false" name="Generic and Automated Data Entry" scriptFormat="javascript" startQuantity="1">
+      <incoming>automatedIntroPath</incoming>
+      <outgoing>flow1</outgoing>
+    </scriptTask>
+    <sequenceFlow id="automatedIntroPath" sourceRef="decision" targetRef="automatedIntro"/>
+    <sequenceFlow id="personalizedIntroPath" name="&gt;3" sourceRef="decision" targetRef="personalizedIntro">
+      <conditionExpression xsi:type="tFormalExpression">
+        <![CDATA[
+        ]]>
+      </conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-BA6F061B-47B6-428B-8CE6-739244B14BD6" sourceRef="personalizedIntro" targetRef="endOnboarding"/>
+    <userTask activiti:assignee="${initiator}" completionQuantity="1" id="usertask1" implementation="##unspecified" isForCompensation="false" name="Enter Data" startQuantity="1">
+      <extensionElements>
+        <activiti:formProperty id="fullName2" name="Full Name2" type="string"/>
+        <activiti:formProperty id="yearsOfExperience2" name="Years of Experience2" required="true" type="long"/>
+      </extensionElements>
+      <incoming>flow1</incoming>
+      <outgoing>flow2</outgoing>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="automatedIntro" targetRef="usertask1"/>
+    <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="endOnboarding"/>
+  </process>
+  <bpmndi:BPMNDiagram id="Yaoqiang_Diagram-onboarding" name="Untitled Diagram" resolution="96.0">
+    <bpmndi:BPMNPlane bpmnElement="onboarding">
+      <bpmndi:BPMNShape bpmnElement="startOnboarding" id="Yaoqiang-startOnboarding">
+        <omgdc:Bounds height="32.0" width="32.0" x="155.0" y="145.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="29.0" x="156.5" y="185.06"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="enterOnboardingData" id="Yaoqiang-enterOnboardingData">
+        <omgdc:Bounds height="80.0" width="100.0" x="240.0" y="120.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="56.0" x="262.0" y="152.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="decision" id="Yaoqiang-decision" isMarkerVisible="true">
+        <omgdc:Bounds height="42.0" width="42.0" x="385.0" y="140.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="106.0" x="353.0" y="184.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="personalizedIntro" id="Yaoqiang-personalizedIntro">
+        <omgdc:Bounds height="80.0" width="100.0" x="519.0" y="15.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="49.84" width="83.0" x="527.5" y="32.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endOnboarding" id="Yaoqiang-endOnboarding">
+        <omgdc:Bounds height="32.0" width="32.0" x="725.0" y="165.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="24.0" x="729.0" y="205.06"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="automatedIntro" id="Yaoqiang-automatedIntro">
+        <omgdc:Bounds height="80.0" width="100.0" x="509.0" y="290.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="49.84" width="83.0" x="517.5" y="307.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="Yaoqiang-usertask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="693.0" y="280.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="56.0" x="715.0" y="312.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="personalizedIntroPath" id="Yaoqiang-personalizedIntroPath">
+        <omgdi:waypoint x="405.0" y="141.4285714285714"/>
+        <omgdi:waypoint x="405.0" y="55.0"/>
+        <omgdi:waypoint x="519.0714285714286" y="55.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="18.0" x="409.82" y="45.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-1337EA98-7364-4198-B5D9-30F5341D6918" id="Yaoqiang-sid-1337EA98-7364-4198-B5D9-30F5341D6918">
+        <omgdi:waypoint x="187.0674421054186" y="161.0"/>
+        <omgdi:waypoint x="240.07142857142856" y="160.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="210.5" y="150.51"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-42BE5661-C3D5-4DE6-96F5-73D34822727A" id="Yaoqiang-sid-42BE5661-C3D5-4DE6-96F5-73D34822727A">
+        <omgdi:waypoint x="340.07142857142856" y="160.0"/>
+        <omgdi:waypoint x="385.4285714285714" y="161.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="359.5" y="150.83"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BA6F061B-47B6-428B-8CE6-739244B14BD6" id="Yaoqiang-sid-BA6F061B-47B6-428B-8CE6-739244B14BD6">
+        <omgdi:waypoint x="619.0714285714286" y="55.0"/>
+        <omgdi:waypoint x="739.0" y="55.0"/>
+        <omgdi:waypoint x="739.0" y="165.49179748827459"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="731.28" y="45.08"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="Yaoqiang-flow2">
+        <omgdi:waypoint x="741.0" y="280.35714285714283"/>
+        <omgdi:waypoint x="741.0" y="197.3569834175729"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="738.0" y="228.94"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="automatedIntroPath" id="Yaoqiang-automatedIntroPath">
+        <omgdi:waypoint x="405.0" y="181.28571428571428"/>
+        <omgdi:waypoint x="405.0" y="295.0"/>
+        <omgdi:waypoint x="509.07142857142856" y="295.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="402.0" y="280.26"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="Yaoqiang-flow1">
+        <omgdi:waypoint x="609.0714285714286" y="330.0"/>
+        <omgdi:waypoint x="693.0714285714286" y="320.0"/>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="19.84" width="6.0" x="648.0" y="315.01"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
